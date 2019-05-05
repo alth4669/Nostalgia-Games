@@ -1,0 +1,217 @@
+/* Variabes */
+$orange: #ffa600;
+$green: #c1d72e;
+$blue: #82d2e5;
+$grey:#f3f3f3;
+$white: #fff;
+$base-color:$green ;
+
+/* ---------------------------------------------------------------------------- */
+/* -----------------------------------Footer---------------------------------- */
+/* ---------------------------------------------------------------------------- */
+footer {background: #2A2A2A;}
+
+footer .wrap-footer {padding: 50px 0;}
+
+footer .col-footer {border-right: 1px solid #666;padding: 0 30px;}
+footer .col-footer:last-child {border: none;}
+footer .col-footer .heading {margin: 0 0 20px;}
+footer .col-footer .heading h4{color: #fff;font-size: 23px;font-weight: 500;margin: 0 0 20px;}
+footer .col-footer a {color: #666;}
+footer .col-footer ul {padding-left: 25px;}
+footer .col-footer ul li{list-style: circle;}
+
+footer .footer-1 img{margin-bottom: 10px;}
+footer .footer-1 p {margin: 0 0 20px; font-size: 18px; text-align: left;}
+footer .footer-2 ul li{text-align: left;}
+footer .footer-3 ul li{text-align: left;}
+footer .footer-4 ul{padding-left: 0px;}
+footer .footer-4 ul li{margin-top: 10px; list-style: none; text-align: left;}
+footer .footer-4 span{margin-right:10px;}
+
+footer .copyright {background: #393939;padding: 20px 0;}
+footer .copyright a {color: #fff;}
+footer .copyright a:hover {text-decoration: underline;}
+footer .copyright ul li {display: inline-block;margin-left: 10px;}
+
+/* Mixin's */
+
+@mixin transition {
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+@mixin clear {
+  &:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+}
+
+ @mixin box-size {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+ @mixin transition {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+@mixin fade {
+  -moz-transition: all 1s ease-in;
+  -moz-transition:all 0.3s ease-in-out;
+  -webkit-transition:all 0.3s ease-in-out;
+}
+
+@mixin opacity {
+  opacity:0.4;
+  filter:alpha(opacity=40);
+  @include fade;
+}
+
+@mixin corners ($radius) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+  -khtml-border-radius: $radius;
+}
+
+body {
+  background:$base-color;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  color:$white;
+  height:100%;
+  text-align:center;
+  font-size:18px;
+}
+
+.wrappper{
+  @include clear;
+  width:100%;
+  margin:0 auto;
+}
+
+
+canvas{
+  color:$white;
+  border: $white dashed 2px;
+  padding:15px;
+}
+
+h1, h2, h3 {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 100;
+	text-transform: uppercase;
+   margin:5px 0;
+}
+
+h1 {
+	font-size: 2.6em;
+}
+
+h2 {
+	font-size: 1.6em;
+}
+
+p{
+  font-size: 1.6em;
+}
+
+#alphabet {
+  @include clear;
+  margin:15px auto;
+  padding:0;
+  max-width:900px;
+}
+
+#alphabet li {
+  float:left;
+  margin: 0 10px 10px 0;
+  list-style:none;
+  width:35px;
+  height:30px;
+  padding-top:10px;
+  background:$white;
+  color:$base-color;
+  cursor:pointer;
+  @include corners(5px);
+  border: solid 1px $white;
+
+    &:hover{
+      background:$base-color;
+      border: solid 1px $white;
+      color:$white;
+    }
+}
+
+#my-word {
+  margin: 0;
+  display: block;
+  padding: 0;
+  display:block;
+}
+
+#my-word li {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  display: inline-block;
+  padding: 0 10px;
+  font-size:1.6em;
+}
+
+.active {
+  @include opacity;
+  cursor:default;
+
+  &:hover{
+      @include fade;
+      @include opacity;
+    }
+}
+
+#mylives{
+  font-size:1.6em;
+  text-align:center;
+  display:block;
+}
+
+button{
+  @include corners (5px);
+  background:$base-color;
+  color:$white;
+  border: solid 1px $white;
+  text-decoration:none;
+  cursor:pointer;
+  font-size:1.2em;
+  padding:18px 10px;
+  width:180px;
+  margin: 10px;
+  outline: none;
+
+    &:hover{
+      @include transition;
+      background:$white;
+      border: solid 1px $white;
+      color:$base-color;
+    }
+}
+
+@media (max-width: 767px) {
+  #alphabet {
+  padding:0 0 0 15px;
+}
+  }
+
+  @media (max-width: 480px) {
+  #alphabet {
+  padding:0 0 0 25px;
+}
+  }
+
+

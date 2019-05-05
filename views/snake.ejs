@@ -1,0 +1,428 @@
+<!--
+EJS Webpage template for the Snake Game page for Nostalgia Games
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <form><title id="title" name="game_id">Snake</title></form>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css"  type="text/css">
+
+	<!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/game-page.css">
+
+	<!-- Custom Fonts -->
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css"  type="text/css">
+    <link rel="stylesheet" href="fonts/font-slider.css" type="text/css">
+
+	<!-- jQuery and Modernizr-->
+	<script src="js/jquery-2.1.1.js"></script>
+
+	<!-- Core JavaScript Files -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/photo-gallery.js"></script>
+
+    <script type="text/javascript" src="../js/index.js"></script>
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<!--Top-->
+
+	<!--Header-->
+	<header class="container">
+		<div class="row">
+			<div class="col-md-4">
+        <a href="category"><div id="logo"><img src="images/new-logo.jpg" /></div></a>
+			</div>
+
+		</div>
+	</header>
+	<!--Navigation-->
+    <nav id="menu" class="navbar" style="color: white; font-size: 30px; text-align: center;">
+      Snake
+	</nav>
+	<!--//////////////////////////////////////////////////-->
+	<!--///////////////////Product Page///////////////////-->
+	<!--//////////////////////////////////////////////////-->
+	<div id="page-content" class="single-page">
+		<div class="container">
+			<div class="row">
+				<div id="main-content" class="col-md-6">
+          <canvas width="500" height="400" id="game" style="border:1px solid #000000;"></canvas>
+          <script>
+          var canvas = document.getElementById('game');
+          var context = canvas.getContext('2d');
+          var myScore;
+          var screenNum = 1;
+          var grid = 16;
+          var count = 0;
+          var score = 0;
+          var playing = false;
+
+          var snake = {
+            x: 160,
+            y: 160,
+
+            // snake velocity. moves one grid length every frame in either the x or y direction
+            dx: grid,
+            dy: 0,
+
+            // keep track of all grids the snake body occupies
+            cells: [],
+
+            // length of the snake. grows when eating an apple
+            maxCells: 4
+          };
+          var apple = {
+            x: 320,
+            y: 320
+          };
+
+          // get random whole numbers in a specific range
+          // @see https://stackoverflow.com/a/1527820/2124254
+          function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+          }
+
+          function startOver(){
+            score = 0;
+            snake.x = 160;
+            snake.y = 160;
+            snake.cells = [];
+            snake.maxCells = 4;
+            snake.dx = grid;
+            snake.dy = 0;
+
+            apple.x = getRandomInt(0, 25) * grid;
+            apple.y = getRandomInt(0, 25) * grid
+            playing = true;
+          //  requestAnimationFrame(playAgain);
+            //cancelAnimationFrame(loop);
+          }
+
+          function startMenu(){
+            context.clearRect(0,0,canvas.width,canvas.height);
+            context.font = "30px Comic Sans MS";
+            context.fillStyle = "red";
+            context.textAlign = "center";
+            context.fillText("Snake", canvas.width/2, canvas.height/2);
+            context.fillStyle = "black";
+            context.textAlign = "center";
+            context.fillText("Press play", canvas.width/2, canvas.height/1.5);
+            snake.x = 160;
+            snake.y = 160;
+            snake.dx = 0;
+            snake.dy = 0;
+            apple.x = 4000;
+            apple.y = -1;
+            playing = true;
+
+            //requestAnimationFrame(loop);
+            //screenNum = 2;
+          }
+
+          function playAgain(){
+            context.clearRect(0,0,canvas.width,canvas.height);
+            context.font = "30px Comic Sans MS";
+            context.fillStyle = "red";
+            context.textAlign = "center";
+            context.fillText("Snake", canvas.width/2, canvas.height/2);
+            context.fillStyle = "black";
+            context.textAlign = "center";
+            context.fillText("Press play", canvas.width/2, canvas.height/1.5);
+
+            snake.x = 160;
+            snake.y = 160;
+            snake.dx = 0;
+            snake.dy = 0;
+            apple.x = 4000;
+            apple.y = -1;
+          }
+
+          // game loop
+          function loop() {
+            requestAnimationFrame(loop);
+
+            // slow game loop to 15 fps instead of 60 (60/15 = 4)
+            if (++count < 4) {
+              return;
+            }
+
+            if(screenNum == 1){
+              // requestAnimationFrame(startMenu);
+            }
+
+            count = 0;
+            context.clearRect(0,0,canvas.width,canvas.height);
+
+
+            // move snake by it's velocity
+            snake.x += snake.dx;
+            snake.y += snake.dy;
+            context.font = "15px Arial";
+            context.fillStyle = "black";
+            context.textAlign = "left";
+            context.fillText("Score: " + score, 10, 50);            //myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+            // wrap snake position horizontally on edge of screen
+
+              if (snake.x < 0) {
+                startOver();
+              }
+              else if (snake.x >= canvas.width) {
+                startOver();
+              }
+
+              // wrap snake position vertically on edge of screen
+              if (snake.y < 0) {
+                startOver();
+              }
+              else if (snake.y >= canvas.height) {
+                startOver();
+              }
+
+
+            // keep track of where snake has been. front of the array is always the head
+            snake.cells.unshift({x: snake.x, y: snake.y});
+
+            // remove cells as we move away from them
+            if (snake.cells.length > snake.maxCells) {
+              snake.cells.pop();
+            }
+
+            // draw apple
+            context.fillStyle = 'red';
+            context.fillRect(apple.x, apple.y, grid-1, grid-1);
+
+            // draw snake one cell at a time
+            context.fillStyle = 'green';
+            snake.cells.forEach(function(cell, index) {
+
+              // drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
+              context.fillRect(cell.x, cell.y, grid-1, grid-1);
+
+              // snake ate apple
+              if (cell.x === apple.x && cell.y === apple.y) {
+                snake.maxCells++;
+                score++;
+                // canvas is 400x400 which is 25x25 grids
+                apple.x = getRandomInt(0, 25) * grid;
+                apple.y = getRandomInt(0, 25) * grid;
+              }
+
+              // check collision with all cells after this one (modified bubble sort)
+              for (var i = index + 1; i < snake.cells.length; i++) {
+
+                // snake occupies same space as a body part. reset game
+                if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+                  startOver();
+                }
+              }
+            });
+          }
+
+
+          // listen to keyboard events to move the snake
+          document.addEventListener('keydown', function(e) {
+              // prevent snake from backtracking on itself by checking that it's
+              // not already moving on the same axis (pressing left while moving
+              // left won't do anything, and pressing right while moving left
+              // shouldn't let you collide with your own body)
+
+              // left arrow key
+              if (e.which === 37 && snake.dx === 0) {
+                snake.dx = -grid;
+                snake.dy = 0;
+              }
+              // up arrow key
+              else if (e.which === 38 && snake.dy === 0) {
+                e.preventDefault();
+                snake.dy = -grid;
+                snake.dx = 0;
+              }
+              // right arrow key
+              else if (e.which === 39 && snake.dx === 0) {
+                snake.dx = grid;
+                snake.dy = 0;
+              }
+              // down arrow key
+              else if (e.which === 40 && snake.dy === 0) {
+                e.preventDefault();
+                snake.dy = grid;
+                snake.dx = 0;
+              }
+          });
+
+          // start the game
+          requestAnimationFrame(loop);
+          </script>
+					<div class="product-desc">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#comment">Comments</a></li>
+							<li><a href="#review">Review</a></li>
+						</ul>
+						<div class="tab-content">
+							<div id="comment" class="tab-pane fade in active">
+                      <div class="container">
+                          <form method="get" action="/snake/updatecomments">    
+                            <%
+                              if (comments){
+                              var buttons = '';
+  
+                              comments.forEach(function(item){
+
+                                buttons+=  `<div class="row">
+                                    <div class="col-sm-1">
+                                  <div class="thumbnail">
+                                  <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                                  </div><!-- /thumbnail -->
+                                  </div><!-- /col-sm-1 -->
+
+                                  <div class="col-sm-5">
+                                  <div class="panel panel-default">
+                                  <div class="panel-heading">
+                                  <strong></strong>
+                                  </div>
+                                  <div class="panel-body">`+item+`</div><!-- /panel-body --></div><!-- /panel panel-default -->
+                                  </div><!-- /col-sm-5 -->
+                                  </div><!-- /row -->`;
+                              });%>
+                              <%- buttons %>
+                              <% } %>
+                              </form>
+                        </div><!-- /container -->
+
+
+							</div>
+							<div id="review" class="tab-pane fade">
+
+							  <div class="review-form">
+                   <h6>Did you like the game? </h6>
+                   <!--the following lines are for the like and dislike buttons-->
+                   <form action="/snake" method="get">
+                        <a href="#" onclick="updateLikesSnake()">  <i class="fa fa-thumbs-up" aria-hidden="true" style="font-size:36px;" id="thumbs-up" disabled></i></a>
+                        <span id="likes"><%- likes %></span>
+
+
+                        <a href="#" onclick="updateDislikesSnake()"><i class="fa fa-thumbs-down" id="thumbs-down" style="font-size:36px; margin-left: 40px;"></i></a>
+                        <span id="dislikes" name="dislikes"><%- dislikes %></span>
+                    </form method="post" action="/updatecomments">
+
+
+								<h6 style="margin-top: 60px;">Write a review</h6>
+								<form name="form1" id="ff">
+
+									<label>
+									<span>Your message here:</span>
+									<textarea name="message" id="message"></textarea>
+									</label>
+									<div class="text-right">
+										<input class="btn btn-default" type="reset" name="reset" value="Reset">
+										<a href="#" onclick="changeReviewSnake()"><input class="btn btn-default" type="submit" name="Submit" value="Submit"></a>
+									</div>
+								</form>
+							  </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="sidebar" class="col-md-4">
+					<div class="widget wid-categories">
+						<div class="heading"><h4>Game Description</h4></div>
+						<div class="content">
+
+<span id="game-description">
+  In the game Snake, you control the snake using the up, down, left, and right keyboard keys.
+
+  To get points, eat the red apples.
+
+  If you run into yourself or if you hit any of the walls, you die and your score is reset.<br>
+ </span>
+ <a href="#">  <i class="fa fa-thumbs-up disabled" id="thumbs-up" aria-hidden="true" style="font-size:36px; color: gray;
+            cursor:not-allowed;"></i></a>
+                        <strong id="likes2"><%- likes %></strong>
+                        <a href="#" style=""><i class="fa fa-thumbs-down" style="font-size:36px; margin-left: 40px; color: gray; cursor:not-allowed;"></i></a>
+                        <strong id="dislikes2"><%- dislikes %></strong>
+
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+  <footer>
+    <div class="container">
+      <div class="wrap-footer">
+        <div class="row">
+          <div class="col-md-3 col-footer footer-1">
+            <img src="images/new-logo2.png" />
+            <p>Copy right @CU_Boulder</p>
+          </div>
+          <div class="col-md-3 col-footer footer-2">
+            <div class="heading"><h4>About us</h4></div>
+            <ul>
+              <li><a href="about_us">About Us</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-footer footer-3">
+            <div class="heading"><h4>Submit Game</h4></div>
+            <ul>
+              <li><a href="#">Submit Games</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-footer footer-4">
+            <div class="heading"><h4>Contact Us</h4></div>
+            <ul>
+              <li><span class="glyphicon glyphicon-home"></span>Boulder, Colorado USA</li>
+              <li><span class="glyphicon glyphicon-earphone"></span>+91 999999999999</li>
+              <li><span class="glyphicon glyphicon-envelope"></span>support@nostalgiagames.com</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+	<!-- IMG-thumb -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+	<script>
+	$(document).ready(function(){
+		$(".nav-tabs a").click(function(){
+			$(this).tab('show');
+		});
+		$('.nav-tabs a').on('shown.bs.tab', function(event){
+			var x = $(event.target).text();         // active tab
+			var y = $(event.relatedTarget).text();  // previous tab
+			$(".act span").text(x);
+			$(".prev span").text(y);
+		});
+	});
+	</script>
+</body>
+</html>

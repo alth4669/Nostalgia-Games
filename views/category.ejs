@@ -1,0 +1,406 @@
+<!--
+EJS Webpage template for the Home page for Nostalgia Games
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <style>
+    	{
+  			box-sizing: border-box;
+		}
+    	.autocomplete {
+  			position: relative;
+  			width: 800px;
+  			display: inline-block;
+		}
+    </style>
+
+	
+    <title>Home</title>
+	
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css"  type="text/css">
+	
+	<!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!--Pop up CSS-->
+    <link rel="stylesheet" type="text/css" href="css/pop_up.css">
+
+    <!--Alert CSS-->
+    <link rel="stylesheet" type="text/css" href="css/alert.css">
+
+    <!--Pop up JS-->
+    <script src="js/pop_up.js"></script>
+
+    <!--alert JS-->
+    
+    <script type="text/javascript" src="js/alert.js"></script>>
+	
+	
+	<!-- Custom Fonts -->
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css"  type="text/css">
+    <link rel="stylesheet" href="fonts/font-slider.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!-- jQuery and Modernizr-->
+	<script src="js/jquery-2.1.1.js"></script>
+	
+	<!-- Core JavaScript Files -->  	 
+    <script src="js/bootstrap.min.js"></script>
+	
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+	<!--Top-->
+	<nav id="top">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-10">
+					<div id="logo"><img src="images/new-logo.jpg" width="180" /></div>
+				</div>
+				<div class="col-xs-2">
+					<ul>
+  						<li class="dropdown">
+    						<a href="javascript:void(0)" class="dropbtn">Welcome <%- current_user.username %></a>
+
+    						<%
+    						var user_dropdown = ""
+    						if (current_user.username == "Guest") {
+    							user_dropdown += "<div class='dropdown-content'>";
+    							user_dropdown += "<a href='account'>Sign-in/Sign-up</a></div>";
+    						}
+    						else {
+    							user_dropdown += "<div class='dropdown-content'>";
+    							user_dropdown += "<a href='category/log_out'>Sign Out</a></div>";
+    						} %>
+    						<%- user_dropdown %>
+  						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<!--Header-->
+	<header class="container">
+		<div class="row">
+			<div class="col-xs-2">
+				<h5>Nostalgia Games</h5>
+			</div>
+			<div class="col-md-10">
+				<form autocomplete="off" class="form-search" method="get" action="category/search_game">
+					<div class="autocomplete">
+						<input style="width: 800px" id="gameInput" type="text" name="gameInput" placeholder="Search games">
+					</div>
+					<button id="search_btn" type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>
+				</form>
+
+				<!--
+				<form autocomplete="off" class="form-search">  
+					<div class="autocomplete">
+						<input style="width: 800px" id="gameInput" type="text" name="gameInput" placeholder="Search games">
+					</div> 
+					<button type="submit" class="btn"><span class="glyphicon glyphicon-search"></span></button>  
+				</form>
+				-->
+			</div>
+			 <script>
+
+			 /*
+			 The following script was taken from https://www.w3schools.com/howto/howto_js_autocomplete.asp and
+			 adapted for this project.
+			 */
+
+			 function autocomplete(inp, arr) {
+			   /*the autocomplete function takes two arguments,
+			   the text field element and an array of possible autocompleted values:*/
+			   var currentFocus;
+			   /*execute a function when someone writes in the text field:*/
+			   inp.addEventListener("input", function(e) {
+			       var a, b, i, val = this.value;
+			       /*close any already open lists of autocompleted values*/
+			       closeAllLists();
+			       if (!val) { return false;}
+			       currentFocus = -1;
+			       /*create a DIV element that will contain the items (values):*/
+			       a = document.createElement("DIV");
+			       a.setAttribute("id", this.id + "autocomplete-list");
+			       a.setAttribute("class", "autocomplete-items");
+			       /*append the DIV element as a child of the autocomplete container:*/
+			       this.parentNode.appendChild(a);
+			       /*for each item in the array...*/
+			       for (i = 0; i < arr.length; i++) {
+			         /*check if the item starts with the same letters as the text field value:*/
+			         if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+			           /*create a DIV element for each matching element:*/
+			           b = document.createElement("DIV");
+			           /*make the matching letters bold:*/
+			           b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+			           b.innerHTML += arr[i].substr(val.length);
+			           /*insert a input field that will hold the current array item's value:*/
+			           b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+			           /*execute a function when someone clicks on the item value (DIV element):*/
+			           b.addEventListener("click", function(e) {
+			           	 window.location.href = "localhost:3000/account";
+			               /*insert the value for the autocomplete text field:*/
+			               inp.value = this.getElementsByTagName("input")[0].value;
+			               /*close the list of autocompleted values,
+			               (or any other open lists of autocompleted values:*/
+			               closeAllLists();
+			               $("#search_btn").click()
+			           });
+			           a.appendChild(b);
+			         }
+			       }
+			   });
+			   /*execute a function presses a key on the keyboard:*/
+			   inp.addEventListener("keydown", function(e) {
+			       var x = document.getElementById(this.id + "autocomplete-list");
+			       if (x) x = x.getElementsByTagName("div");
+			       if (e.keyCode == 40) {
+			         /*If the arrow DOWN key is pressed,
+			         increase the currentFocus variable:*/
+			         currentFocus++;
+			         /*and and make the current item more visible:*/
+			         addActive(x);
+			       } else if (e.keyCode == 38) { //up
+			         /*If the arrow UP key is pressed,
+			         decrease the currentFocus variable:*/
+			         currentFocus--;
+			         /*and and make the current item more visible:*/
+			         addActive(x);
+			       } else if (e.keyCode == 13) {
+			         /*If the ENTER key is pressed, prevent the form from being submitted,*/
+			         e.preventDefault();
+			         if (currentFocus > -1) {
+			           /*and simulate a click on the "active" item:*/
+			           if (x) x[currentFocus].click();
+			         }
+			       }
+			   });
+			   function addActive(x) {
+			     /*a function to classify an item as "active":*/
+			     if (!x) return false;
+			     /*start by removing the "active" class on all items:*/
+			     removeActive(x);
+			     if (currentFocus >= x.length) currentFocus = 0;
+			     if (currentFocus < 0) currentFocus = (x.length - 1);
+			     /*add class "autocomplete-active":*/
+			     x[currentFocus].classList.add("autocomplete-active");
+			   }
+			   function removeActive(x) {
+			     /*a function to remove the "active" class from all autocomplete items:*/
+			     for (var i = 0; i < x.length; i++) {
+			       x[i].classList.remove("autocomplete-active");
+			     }
+			   }
+			   function closeAllLists(elmnt) {
+			     /*close all autocomplete lists in the document,
+			     except the one passed as an argument:*/
+			     var x = document.getElementsByClassName("autocomplete-items");
+			     for (var i = 0; i < x.length; i++) {
+			       if (elmnt != x[i] && elmnt != inp) {
+			         x[i].parentNode.removeChild(x[i]);
+			       }
+			     }
+			   }
+			   /*execute a function when someone clicks in the document:*/
+			   document.addEventListener("click", function (e) {
+			       closeAllLists(e.target);
+			   });
+			 }			 
+
+			 /*An array containing all the names of games stored in our database:*/
+			 <%
+			 var games = '[';
+			 all_game_data.forEach(function(item) {
+			 	games += '"' + item.name + '",';
+			 })
+			 games += ']';
+			 %>			 
+
+			 /*initiate the autocomplete function on the "gameInput" element, and pass along the games array as possible autocomplete values:*/
+			 autocomplete(document.getElementById("gameInput"), <%- games %>);
+			 </script>
+		</div>
+	</header>
+	<!--//////////////////////////////////////////////////-->
+	<!--///////////////////Category Page//////////////////-->
+	<!--//////////////////////////////////////////////////-->
+	<div id="page-content" class="single-page">
+		<div class="container">
+			<!--div class="row">
+				<div class="col-lg-12">
+					<ul class="breadcrumb">
+						<li><a href="index.html">Home</a></li>
+						<li><a href="category.html">Category : Mobile</a></li>
+					</ul>
+				</div>
+			</div-->
+			<div class="row">
+			<div id="sidebar" class="col-md-2">
+					<div class="widget wid-categories">
+						<div class="heading"><h4>Friends Online</h4></div>
+						<div class="content">
+							<ul>
+								<%
+									var friendsList = "";
+									if (current_user.username == 'Guest') {
+										friendsList += "<li>Login to see your friends online</li>";
+									}
+									else if(current_user_friends.length == 0) {
+										friendsList += "<li>You haven't made any friends yet</li>";
+									}
+									else {
+										for (i=0; i<current_user_friends.length; i++) {
+											friendsList += "<li>" + current_user_friends[i].username + "</li>";
+										}
+									} %>
+									<%- friendsList %>
+							</ul>
+						</div>
+					</div>
+					<button id="myBtn" class="btn btn-1" style="width: 100% " onclick="openForm()">Add Friends</button>
+
+
+                    <%
+	                var al='';
+	                if(valid_friend=='false'){
+	                    console.log("lalala");
+	                    al+='<div class="alert">';
+	                    al+='<span class="closebtn" id="closebtn">&times;</span>';
+                        al+='<strong>Error!</strong> No friends exist.';
+                        al+='</div>';
+                    } 
+
+                    console.log(valid_friend);
+	                %>
+	                <%- al %>
+
+
+	                <script type="text/javascript">
+	                     var close = document.getElementById("closebtn");
+                         close.onclick = function(){
+    						var div = this.parentElement;
+    						div.style.opacity = "0";
+    						setTimeout(function(){ div.style.display = "none"; }, 600);
+  						}
+					</script>
+
+
+
+					<div class="form-popup" id="myForm">
+                      <form  method="post" class="form-container" action="category/friend">
+                           <h1>New Friend Info</h1>
+
+                           <label for="username"><b>Username</b></label>
+                           <input type="text" placeholder="Enter username" name="searchname" id="searchname" required>
+                           
+                           <button type="submit" class="btn">Submit</button>
+                           <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                       <!--/form-->
+                      </form>
+                    </div>
+			</div>
+				<div id="main-content" class="col-md-10">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="heading"><h2>POPULAR GAMES</h2></div>
+							<div class="products">
+								<!--
+									Make sure popular game data is loaded here and then populate popular games portion of page according
+									to game popularities.
+								-->
+								<%
+								if (pop_game_data) {
+									var popGameCards = '';
+									pop_game_data.forEach(function(item) {
+										popGameCards += '<div class="col-lg-4 col-md-4 col-xs-12">'
+										popGameCards += '<div class="product">'
+										popGameCards += '<div class="image"><a href="/' + item.name + '"><img src="images/' + item.name +'_card.jpeg" /></a></div>'
+										popGameCards += '<div class="caption">'
+										popGameCards += '<div class="name"><h3><a href="/' + item.name +'">' + item.name + '</a></h3></div></div></div></div>'
+									}); %>
+									<%- popGameCards %>
+								<% } %>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+							<div class="heading"><h2>ALL GAMES</h2></div>
+							  
+
+							  	<!--
+							  		Make sure all game data is loaded here and then populate all game cards below. Create a new row after every
+							  		3 game cards.
+							  	-->
+
+							  	<%
+							  	if (all_game_data) {
+							  		var allGameCards = '<div class="row"><div class="products">';
+							  		all_game_data.forEach(function(item) {
+							  			allGameCards += '<div class="col-lg-4 col-md-4 col-xs-12"><div class="product">';
+							  			allGameCards += '<div class="image"><a href="/' + item.name + '"><img src="images/' + item.name +'_card.jpeg" /></a></div>';
+							  			allGameCards += '<div class="caption">';
+							  			allGameCards += '<div class="name"><h3><a href="/' + item.name +'">' + item.name + '</a></h3></div></div></div></div>';
+							  			if (item.id % 3 == 0 && item.id != 1) {
+							  				allGameCards += '</div></div><div class="row"><div class="products">';
+							  			}
+							  		});
+							  		allGameCards += '</div></div>'; %>
+							  		<%- allGameCards %>
+							  	<% } %>
+							</div>	  
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	<footer>
+		<div class="container">
+			<div class="wrap-footer">
+				<div class="row">
+					<div class="col-md-3 col-footer footer-1">
+						<img src="images/new-logo2.png" />
+						<p>Copy right @CU_Boulder</p>
+					</div>
+					<div class="col-md-3 col-footer footer-2">
+						<div class="heading"><h4>About us</h4></div>
+						<ul>
+							<li><a href="about_us">About Us</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3 col-footer footer-3">
+						<div class="heading"><h4>Submit Game</h4></div>
+						<ul>
+							<li><a href="#">Submit Games</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3 col-footer footer-4">
+						<div class="heading"><h4>Contact Us</h4></div>
+						<ul>
+							<li><span class="glyphicon glyphicon-home"></span>Boulder, Colorado USA</li>
+							<li><span class="glyphicon glyphicon-earphone"></span>+91 999999999999</li>
+							<li><span class="glyphicon glyphicon-envelope"></span>support@nostalgiagames.com</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>

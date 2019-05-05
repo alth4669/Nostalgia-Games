@@ -1,0 +1,246 @@
+<!--
+EJS Webpage template for the Login/Sign-up page for Nostalgia Games
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+	
+    <title> <%- my_title %></title>
+	
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css"  type="text/css">
+	
+	<!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!--Login CSS-->
+
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+	
+	
+	<!-- Custom Fonts -->
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css"  type="text/css">
+    <link rel="stylesheet" href="fonts/font-slider.css" type="text/css">
+	
+	<!-- jQuery and Modernizr-->
+	<script src="js/jquery-2.1.1.js"></script>
+	
+	<!-- Core JavaScript Files -->  	 
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Login Java script-->
+    <script src="js/login.js"></script>
+
+    <!--alert css-->
+
+    <link rel="stylesheet" type="text/css" href="css/alert.css">
+	
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.js"></script>
+        <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+	<script>
+		function getUrlVars() {
+    		var vars = [];
+    		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        		vars[key] = value;
+    		});
+    		return vars;
+		}
+		var URLVars = getUrlVars();
+		console.log(URLVars);
+		console.log(URLVars[0]);
+	</script>
+
+	<!--Header-->
+	<header class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<div id="logo"><img src="images/new-logo.jpg" /></div>
+			</div>
+			<div class="col-md-4">
+			</div>
+			<div class="col-md-4">
+				<h5>Welcome!</h5>
+			</div>
+
+		</div>
+	</header>
+	
+	<!--//////////////////////////////////////////////////-->
+	<!--///////////////////Account Page///////////////////-->
+	<!--//////////////////////////////////////////////////-->
+	<div id="page-content" class="single-page">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<ul class="breadcrumb">
+						<li><a href="category">Home</a></li>
+						<li><a href="account">Account</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="heading"><h2>Login</h2></div>
+					<form name="form1" id="ff1" method="post" action="account/login">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Username :" name="username" id="username" required>
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control" placeholder="Password :" name="password" id="password" required>
+						</div>
+
+						 <%
+	                         var al='';
+	                         if(valid_user=='false'){
+	                           console.log("lalala");
+	                         al+='<div class="alert">';
+	                         al+='<span class="closebtn" id="closebtn" >&times;</span>';
+                             al+='<strong>Error!</strong> User or password does not exist .';
+                             al+='</div>';
+                             } 
+	                        %>
+	                       <%- al %>
+
+
+	                       
+						<button type="submit" class="btn btn-1" name="login" id="login">Login</button>
+					</br>
+				</br>
+					</form>
+
+					<form method="post" action="account/login_as_guest">
+						<button type="submit" class="btn btn-1" name="login_as_guest">Login as a guest</button>
+					</form>
+				</div>
+				<div class="col-md-6">
+					<div class="heading"><h2>New User ? Create An Account.</h2></div>
+					<form class = "form" name="form2" id="ff2" method="post" action="account/reg_acct">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Username :" name="username" id="new_username" required>
+						</div>
+
+                         <%
+	                         var al2='';
+	                         if(valid_username=='false'){
+	                           console.log("lalala");
+	                         al2+='<div class="alert">';
+	                         al2+='<span class="closebtn" id="closebtn2">&times;</span>';
+                             al2+='<strong>Error!</strong> Username has already existed .';
+                             al2+='</div>';
+                             } 
+	                        %>
+	                       <%- al2 %>
+
+
+
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="First Name :" name="firstname" id="firstname" required>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Last Name :" name="lastname" id="lastname" required>
+						</div>
+						<div class="form-group">
+							<input type="email" onclick="openModal()" class="form-control" placeholder="Email Address :" name="email" id="email" required>
+						</div>
+
+                    
+                         <%
+	                         var al3='';
+	                         if(valid_email=='false'){
+	                           console.log("lalala");
+	                         al3+='<div class="alert">';
+	                         al3+='<span class="closebtn" id="closebtn3">&times;</span>';
+                             al3+='<strong>Error!</strong> Email has already existed .';
+                             al3+='</div>';
+                             } 
+	                        %>
+	                       <%- al3 %>
+
+						<div class="form-group">
+							<input type="password" class="form-control" placeholder="Password :" name="password" id="psw" required>
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control" placeholder="Retype Password :" name="repassword" id="repsw" required>
+						</div>
+
+						<button type="submit" id="my_submit_button"  disabled class="btn btn-1">Create</button>
+                        </br>
+                        </br>
+					</form>
+					<div class="modal-footer">
+					    <div id="message" style="display:block">
+					    <h3>Email address must be valid</h3>
+					    <p id="valid_email_format" class="invalid">Valid email address</p>
+						<h3>Password must contain the following:</h3>
+						<p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+						<p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+						<p id="number" class="invalid">A <b>number</b></p>
+						<p id="length" class="invalid">Minimum <b>8 characters</b></p>
+						<p id="match" class="invalid">Password and Confirm Password Match</p>
+					    </div>
+				        </div>	
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+	             var close = document.getElementsByClassName("closebtn");
+                 var i;
+
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function(){
+    var div = this.parentElement;
+    div.style.opacity = "0";
+    setTimeout(function(){ div.style.display = "none"; }, 600);
+  }
+}
+</script>
+	<footer>
+		<div class="container">
+			<div class="wrap-footer">
+				<div class="row">
+					<div class="col-md-3 col-footer footer-1">
+						<img src="images/new-logo2.png" />
+						<p>Copy right @CU_Boulder</p>
+					</div>
+					<div class="col-md-3 col-footer footer-2">
+						<div class="heading"><h4>About us</h4></div>
+						<ul>
+							<li><a href="about_us">About Us</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3 col-footer footer-3">
+						<div class="heading"><h4>Submit Game</h4></div>
+						<ul>
+							<li><a href="#">Submit Games</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3 col-footer footer-4">
+						<div class="heading"><h4>Contact Us</h4></div>
+						<ul>
+							<li><span class="glyphicon glyphicon-home"></span>Boulder, Colorado USA</li>
+							<li><span class="glyphicon glyphicon-earphone"></span>+91 999999999999</li>
+							<li><span class="glyphicon glyphicon-envelope"></span>support@nostalgiagames.com</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>

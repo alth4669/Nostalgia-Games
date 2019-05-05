@@ -1,0 +1,59 @@
+
+.thumbnail {
+    padding:0px;
+    width: 50px;
+    height: 50px;
+}
+.panel {
+	position:relative;
+	width: 80% !important;
+}
+.panel>.panel-heading:after,.panel>.panel-heading:before{
+	position:absolute;
+	top:11px;left:-16px;
+	right:100%;
+	width:0;
+	height:0;
+	display:block;
+	content:" ";
+	border-color:transparent;
+	border-style:solid solid outset;
+	pointer-events:none;
+
+}
+.panel>.panel-heading:after{
+	border-width:7px;
+	border-right-color:#f7f7f7;
+	margin-top:1px;
+	margin-left:2px;
+}
+.panel>.panel-heading:before{
+	border-right-color:#ddd;
+	border-width:8px;
+}
+
+/* Make the image responsive */
+#game-container img {
+ width: 100%;
+ height: auto;
+}
+
+/* Style the button and place it in the middle of the container/image */
+#game-container #play-button {
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ -ms-transform: translate(-50%, -50%);
+ background-color: red;
+ color: white;
+ font-size: 16px;
+ padding: 0px 0px;
+ border: none;
+ cursor: pointer;
+ border-radius: 20px;
+}
+
+#game-container #play-button:hover {
+ background-color: black;
+}
